@@ -1,0 +1,30 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "shop-smp",
+          "appId": "1:92147041494:android:eec06d2aac9ab7c6063577",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "shop-smp",
+          "configurations": {
+            "android": "1:92147041494:android:eec06d2aac9ab7c6063577",
+            "web": "1:92147041494:web:97bc30ad19c397c2063577"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
