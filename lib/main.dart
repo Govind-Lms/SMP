@@ -20,23 +20,16 @@ void main() async{
 setup() async {
   
   WidgetsFlutterBinding.ensureInitialized();
-  // if(Platform.isIOS){
-  //   await Firebase.initializeApp(
-  //     name: "SMP",
-  //   options: DefaultFirebaseOptions.currentPlatform);
-  // }
   await Firebase.initializeApp(
+    // name: "SMP",
     options: DefaultFirebaseOptions.currentPlatform);
 
-  if(kIsWeb){
-    ///Do NOTHING
-  }
-  else{
-    await checkPermission();
-  }
+  await checkPermission();
 }
 checkPermission () async{
-  if(Platform.isAndroid){
+  if(kIsWeb){}  
+  
+  else if(Platform.isAndroid){
     final status = await Permission.manageExternalStorage.request();
     if(status.isGranted){
     }
@@ -47,11 +40,13 @@ checkPermission () async{
   else if(Platform.isIOS){
     var status = await Permission.photos.request();
     if (status.isGranted) {
-    } else if (status.isDenied) {
-    } else if (status.isPermanentlyDenied) {
+    }else if (status.isPermanentlyDenied || status.isDenied) {
       openAppSettings();
+    }else{
     }
-
+  }
+  else{
+    //Do Nothing
   }
 }
 class MyApp extends StatelessWidget {
@@ -79,15 +74,30 @@ class MyApp extends StatelessWidget {
             ),
           );
         }else{
-          return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'SMP',
-              theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-                useMaterial3: true,
-              ),
-              home: const Scaffold(body: Center(child: Text("Please Resize the window"),),),
-            );
+          return Center(
+            child: SizedBox(
+                  width: 600,
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider(create: (context) => ClientBloc()),
+                      BlocProvider(create: (context) => VoucherBloc()),
+                      BlocProvider(create: (context) => ItemBloc()),
+                      BlocProvider(create: (context) => AmountBloc()),
+                    ],
+                    child: MaterialApp(
+                      debugShowCheckedModeBanner: false,
+                      title: 'SMP',
+                      theme: ThemeData(
+                        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+                        useMaterial3: true,
+                      ),
+                      home: const DashboardScreen(),
+                      darkTheme: ThemeData.dark(),
+                      themeMode: ThemeMode.system,
+                    ),
+                  ),
+                ),
+          );
         }
       },
       
