@@ -21,7 +21,7 @@ setup() async {
   
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    // name: "SMP",
+    name: "SMP",
     options: DefaultFirebaseOptions.currentPlatform);
 
   await checkPermission();
